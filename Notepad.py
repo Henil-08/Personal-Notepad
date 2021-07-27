@@ -14,7 +14,10 @@ def newFile():
 def openFile():
     global file
     textArea.delete(1.0, END)
-    file = askopenfilename(defaultextension=".txt", filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")))
+    file = askopenfilename(
+        defaultextension=".txt",
+        filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")),
+    )
 
     if file == "":
         file = None
@@ -26,10 +29,14 @@ def openFile():
 
 
 def saveFile():
-    global file 
+    global file
 
     if file == None:
-        file = asksaveasfilename(initialfile="Untitled.txt", defaultextension=".txt", filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")))
+        file = asksaveasfilename(
+            initialfile="Untitled.txt",
+            defaultextension=".txt",
+            filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")),
+        )
 
         if file == "":
             file = None
@@ -38,17 +45,22 @@ def saveFile():
             f.write(textArea.get(1.0, END))
             f.close
             root.title(os.path.basename(file) + " - Notepad")
-    
+
     else:
         f = open(file, "w")
         f.write(textArea.get(1.0, END))
         f.close
 
+
 def saveexitFile():
-    global file 
+    global file
 
     if file == None:
-        file = asksaveasfilename(initialfile="Untitled.txt", defaultextension=".txt", filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")))
+        file = asksaveasfilename(
+            initialfile="Untitled.txt",
+            defaultextension=".txt",
+            filetypes=(("All Files", "*.*"), ("Text Documents", "*.txt")),
+        )
 
         if file == "":
             file = None
@@ -58,7 +70,7 @@ def saveexitFile():
             f.close
             root.title(os.path.basename(file) + " - Notepad")
             root.destroy()
-    
+
     else:
         f = open(file, "w")
         f.write(textArea.get(1.0, END))
@@ -90,7 +102,7 @@ if __name__ == "__main__":
     root = Tk()
     root.title("Untitled - Notepad")
     root.geometry("700x500")
-    
+
     # Adding the Text Box
     textArea = Text(root, font="lucida 13")
     file = None
@@ -109,14 +121,17 @@ if __name__ == "__main__":
     mainMenu.add_cascade(label="File", menu=fileMenu)
 
     editMenu = Menu(mainMenu, tearoff=0)
-    editMenu.add_command(label="Cut                       Ctrl + X", command=cut)
-    editMenu.add_command(label="Copy                    Ctrl + C", command=copy)
-    editMenu.add_command(label="Paste                    Ctrl + V", command=paste)
+
+    # This is not the right way to display shortcuts.
+    # Use 'accelerator' to display the corresponding shortcut.
+    editMenu.add_command(label="Cut", accelerator="Ctrl + X", command=cut)
+    editMenu.add_command(label="Copy", accelerator="Ctrl + C", command=copy)
+    editMenu.add_command(label="Paste", accelerator="Ctrl + V", command=paste)
     mainMenu.add_cascade(label="Edit", menu=editMenu)
 
     helpMenu = Menu(mainMenu, tearoff=0)
     helpMenu.add_command(label="About", command=about)
-    mainMenu.add_cascade(label="Help", menu=helpMenu)   
+    mainMenu.add_cascade(label="Help", menu=helpMenu)
 
     # Adding the Scroll bar
     scrollBar = Scrollbar(textArea)
@@ -126,4 +141,3 @@ if __name__ == "__main__":
     scrollBar.config(command=textArea.yview)
     textArea.config(yscrollcommand=scrollBar.set)
     root.mainloop()
-
